@@ -5,6 +5,8 @@ from aiogram import BaseMiddleware, Bot
 from aiogram.enums import ChatMemberStatus
 from aiogram.exceptions import TelegramNotFound
 from aiogram.methods import GetChatMember
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, Message, CallbackQuery
+from aiogram.utils.i18n import gettext as _
 
 if TYPE_CHECKING:
     from collections.abc import Awaitable, Callable
@@ -15,8 +17,9 @@ if TYPE_CHECKING:
 class ChannelSubscribeMiddleware(BaseMiddleware):
     """The middleware is only guaranteed to work for other users if the bot is an administrator in the chat."""
 
-    def __init__(self, chat_ids: list[int | str] | int | str) -> None:
+    def __init__(self, chat_ids: list[int | str] | int | str, channel_url: str) -> None:
         self.chat_ids = chat_ids
+        self.channel_url = channel_url
         super().__init__()
 
     async def __call__(
@@ -34,9 +37,19 @@ class ChannelSubscribeMiddleware(BaseMiddleware):
 
         if await self._is_subscribed(bot=bot, user_id=user_id):
             return await handler(event, data)
-        return None
 
-        # await message.answer(_("first subscribe to this channel(s)/group(s)"), reply_markup=)
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text=_("subscribe button"), url=self.channel_url)],
+            [InlineKeyboardButton(text=_("check subscribe button"), callback_data="check_subscribe")],
+        ])
+
+        if isinstance(event, Message):
+            await event.answer(_("subscribe first"), reply_markup=keyboard)
+        elif isinstance(event, CallbackQuery) and event.message:
+            await event.message.answer(_("subscribe first"), reply_markup=keyboard)
+            await event.answer()
+
+        return None
 
     async def _is_subscribed(self, bot: Bot, user_id: int) -> bool:
         if isinstance(self.chat_ids, list):
