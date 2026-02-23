@@ -37,6 +37,8 @@ bot = [
     "prometheus-client>=0.21.1,<1.0.0",
     "pydantic-ai>=1.0.0,<2.0.0",
     "pgvector>=0.2.4,<1.0.0",
+    "sentence-transformers>=5.1.2,<6.0.0",
+    "google-generativeai>=0.8.5,<0.9.0",
 ]
 admin = [
     "gunicorn>=23.0.0,<24.0.0",
