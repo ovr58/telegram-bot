@@ -61,7 +61,7 @@ services:
       - POSTGRES_PASSWORD=${COURSE_DB_PASS}
       - POSTGRES_DB=${COURSE_DB_NAME}
     volumes:
-      - course-postgres-data:/var/lib/postgresql
+      - course-db-data:/var/lib/postgresql
       - ./course_db_init:/docker-entrypoint-initdb.d
     ports:
       - "${COURSE_DB_PUBLIC_PORT}:5432"
@@ -217,6 +217,7 @@ volumes:
   backups-data: {}
   postgres-data: {}
   course-postgres-data: {}
+  course-db-data: {}
   redis-data: {}
   prometheus-data: {}
   grafana-data: {}
