@@ -56,6 +56,18 @@ msgstr ""
 msgid "info button"
 msgstr ""
 
+#: bot/middlewares/channel_subscribe.py
+msgid "subscribe first"
+msgstr "❌ Для доступу до бота спочатку підпишіться на наш канал."
+
+#: bot/middlewares/channel_subscribe.py
+msgid "subscribe button"
+msgstr "📢 Підписатися на канал"
+
+#: bot/middlewares/channel_subscribe.py
+msgid "check subscribe button"
+msgstr "✅ Я підписався"
+
 #: bot/middlewares/auth.py:41
 msgid "first message"
 msgstr ""

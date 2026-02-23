@@ -56,6 +56,18 @@ msgstr "🆙 Получить PREMIUM"
 msgid "info button"
 msgstr "Info"
 
+#: bot/middlewares/channel_subscribe.py
+msgid "subscribe first"
+msgstr "❌ Для доступа к боту сначала подпишитесь на наш канал."
+
+#: bot/middlewares/channel_subscribe.py
+msgid "subscribe button"
+msgstr "📢 Подписаться на канал"
+
+#: bot/middlewares/channel_subscribe.py
+msgid "check subscribe button"
+msgstr "✅ Я подписался"
+
 #: bot/middlewares/auth.py:41
 msgid "first message"
 msgstr ""
