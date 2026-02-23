@@ -34,3 +34,7 @@ def get_sessionmaker(engine: AsyncEngine) -> async_sessionmaker[AsyncSession]:
 db_url = settings.database_url
 engine = get_engine(url=db_url)
 sessionmaker = get_sessionmaker(engine)
+
+course_db_url = settings.course_database_url
+course_db_engine = get_engine(url=course_db_url)
+course_db_sessionmaker = get_sessionmaker(course_db_engine)

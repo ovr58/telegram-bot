@@ -58,7 +58,24 @@ class DBSettings(EnvBaseSettings):
             return f"postgresql://{self.DB_USER}:{self.DB_PASS}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
         return f"postgresql://{self.DB_USER}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}"
 
+class AISettings(EnvBaseSettings):
+    GEMINI_API_KEY: str | None = None
+    GEMINI_API_URL: str | None = None
 
+class CourseDBSettings(EnvBaseSettings):
+    COURSE_DB_HOST: str = "course_db"
+    COURSE_DB_PORT: int = 5432
+    COURSE_DB_USER: str = "postgres"
+    COURSE_DB_PASS: str | None = None
+    COURSE_DB_NAME: str = "postgres"
+
+    @property
+    def course_database_url(self) -> URL | str:
+        """Генерирует URL для подключения к базе данных курсов."""
+        if self.COURSE_DB_PASS:
+            return f"postgresql+asyncpg://{self.COURSE_DB_USER}:{self.COURSE_DB_PASS}@{self.COURSE_DB_HOST}:{self.COURSE_DB_PORT}/{self.COURSE_DB_NAME}"
+        return f"postgresql+asyncpg://{self.COURSE_DB_USER}@{self.COURSE_DB_HOST}:{self.COURSE_DB_PORT}/{self.COURSE_DB_NAME}"
+    
 class CacheSettings(EnvBaseSettings):
     REDIS_HOST: str = "redis"
     REDIS_PORT: int = 6379
@@ -76,10 +93,12 @@ class CacheSettings(EnvBaseSettings):
         return f"redis://{self.REDIS_HOST}:{self.REDIS_PORT}/0"
 
 
-class Settings(BotSettings, DBSettings, CacheSettings):
+class Settings(BotSettings, DBSettings, CourseDBSettings, AISettings, CacheSettings):
     DEBUG: bool = False
 
     SENTRY_DSN: str | None = None
+
+    VIDEOS_PATH: str = "/app/videos"
 
     AMPLITUDE_API_KEY: str  # or for example it could be POSTHOG_API_KEY
 

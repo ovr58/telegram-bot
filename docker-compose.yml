@@ -3,25 +3,29 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: bot:latest
+    image: tgbot-bot:latest
     container_name: ${COMPOSE_PROJECT_NAME}-bot
     restart: always
     env_file:
       - .env
     ports:
       - ${WEBHOOK_PORT}:${WEBHOOK_PORT}
+    volumes:
+      - D:\3DWork\конспект3DClub\transcribing\videos_0:/app/videos
     networks:
       - app
       - monitoring
     depends_on:
       - pgbouncer
       - redis
+      - course_db
 
   admin:
     build:
       context: .
       dockerfile: ./admin/Dockerfile
     container_name: ${COMPOSE_PROJECT_NAME}-admin
+    image: tgbot-admin:latest
     restart: always
     env_file:
       - .env
@@ -35,7 +39,7 @@ services:
       - ./admin:/usr/src/app/admin
 
   postgres:
-    image: postgres:14-alpine
+    image: postgres:18-alpine
     container_name: ${COMPOSE_PROJECT_NAME}-postgres
     restart: always
     env_file:
@@ -48,8 +52,22 @@ services:
     networks:
       - app
     volumes:
-      - postgres-data:/var/lib/postgresql/data
-
+      - course-postgres-data:/var/lib/postgresql
+  course_db:
+    image: pgvector/pgvector:pg18
+    container_name: course_db
+    environment:
+      - POSTGRES_USER=${COURSE_DB_USER}
+      - POSTGRES_PASSWORD=${COURSE_DB_PASS}
+      - POSTGRES_DB=${COURSE_DB_NAME}
+    volumes:
+      - course-postgres-data:/var/lib/postgresql
+      - ./course_db_init:/docker-entrypoint-initdb.d
+    ports:
+      - "${COURSE_DB_PUBLIC_PORT}:5432"
+    networks:
+      - app
+    restart: always
   pgbouncer:
     image: edoburu/pgbouncer
     container_name: ${COMPOSE_PROJECT_NAME}-pgbouncer
@@ -111,7 +129,7 @@ services:
     command: /bin/sh -c 'if [ -n "$REDIS_PASS" ]; then redis-server --requirepass "$REDIS_PASS"; else redis-server; fi'
 
   migrator:
-    image: bot:latest
+    image: tgbot-bot:latest
     container_name: ${COMPOSE_PROJECT_NAME}-migrator
     restart: "on-failure"
     command: alembic upgrade head
@@ -198,6 +216,7 @@ networks:
 volumes:
   backups-data: {}
   postgres-data: {}
+  course-postgres-data: {}
   redis-data: {}
   prometheus-data: {}
   grafana-data: {}

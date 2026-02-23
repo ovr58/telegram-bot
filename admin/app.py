@@ -161,14 +161,12 @@ def index() -> Response:
 admin = Admin(
     app,
     name="Telegram Bot",
-    base_template="my_master.html",
+    url="/admin",
     index_view=CustomAdminIndexView(
         name="Home",
-        url="/admin",
         menu_icon_type=ICON_TYPE_FONT_AWESOME,
         menu_icon_value="fa-home",
     ),
-    template_mode="bootstrap4",
 )
 
 admin.add_view(
@@ -208,7 +206,7 @@ admin.add_view(
 @security.context_processor
 def security_context_processor() -> dict[str, Any]:
     return {
-        "admin_base_template": admin.base_template,
+        "admin_base_template": "admin/base.html",
         "admin_view": admin.index_view,
         "h": helpers,
         "get_url": url_for,

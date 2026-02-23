@@ -2,7 +2,6 @@ from __future__ import annotations
 import asyncio
 
 import sentry_sdk
-import uvloop
 from loguru import logger
 from sentry_sdk.integrations.loguru import LoggingLevels, LoguruIntegration
 
@@ -13,7 +12,6 @@ from bot.handlers.metrics import MetricsView
 from bot.keyboards.default_commands import remove_default_commands, set_default_commands
 from bot.middlewares import register_middlewares
 from bot.middlewares.prometheus import prometheus_middleware_factory
-
 
 async def on_startup() -> None:
     logger.info("bot starting...")
@@ -119,4 +117,4 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    uvloop.run(main())
+    asyncio.run(main())
