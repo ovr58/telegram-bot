@@ -30,9 +30,9 @@ class ACLMiddleware(I18nMiddleware):
     DEFAULT_LANGUAGE_CODE = DEFAULT_LOCALE
 
     async def get_locale(self, event: TelegramObject, data: dict[str, Any]) -> str:
-        session: AsyncSession = data["session"]
+        session: AsyncSession | None = data.get("session")
 
-        if hasattr(event, "chat_member"):
+        if session is None or hasattr(event, "chat_member"):
             return self.DEFAULT_LANGUAGE_CODE
 
         user: User | None = getattr(event, "from_user", None)
