@@ -131,4 +131,4 @@ dmypy.json
 # Pycharm
 .idea/
 course_db_init/course_data.sql
-course_db_init/course_data.sql
+course_db_init/course_data.dump
