@@ -37,8 +37,8 @@ class BotSettings(WebhookSettings):
     BOT_TOKEN: str
     SUPPORT_URL: str | None = None
     RATE_LIMIT: int | float = 0.5  # for throttling control
-    CHANNEL_ID: int | str = ""
-    CHANNEL_URL: str = ""
+    CHANNEL_ID: int | str = -1003532670668
+    CHANNEL_URL: str = "https://t.me/3dteacher"
 
 
 class DBSettings(EnvBaseSettings):
