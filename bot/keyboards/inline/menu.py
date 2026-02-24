@@ -6,7 +6,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 def main_keyboard() -> InlineKeyboardMarkup:
     """Use in main menu."""
     buttons = [
-        [InlineKeyboardButton(text=_("wallet button"), callback_data="wallet")],
+        [InlineKeyboardButton(text=_("courses button"), callback_data="courses")],
         [InlineKeyboardButton(text=_("premium button"), callback_data="premium")],
         [InlineKeyboardButton(text=_("info button"), callback_data="info")],
         [InlineKeyboardButton(text=_("support button"), callback_data="support")],

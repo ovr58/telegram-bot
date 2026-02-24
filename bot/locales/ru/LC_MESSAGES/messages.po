@@ -45,8 +45,8 @@ msgid "back button"
 msgstr "🔙 Вернуться назад"
 
 #: bot/keyboards/inline/menu.py:9
-msgid "wallet button"
-msgstr "👛 Мой кошелёк"
+msgid "courses button"
+msgstr "📚 Курсы"
 
 #: bot/keyboards/inline/menu.py:10
 msgid "premium button"
